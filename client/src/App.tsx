@@ -2,11 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { callApi } from './callApi';
-
-type Province = {
-  id: number;
-  content: string;
-}
+import { Province } from './types';
+import { ProvinceList } from './ProvinceList/ProvinceList';
 
 type AppState = {
   provinces: Province[],
@@ -14,7 +11,7 @@ type AppState = {
 }
 
 class App extends React.Component<{}, AppState> {
-  state = {
+  state: AppState = {
     provinces: [],
     selectedProvince: ''
   };
@@ -28,22 +25,20 @@ class App extends React.Component<{}, AppState> {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div className='container'>
+          <ProvinceList
+            provinces={this.state.provinces}
+            selectProvince={(id) => this.selectProvince(id)}
+            selectedProvince={this.state.selectedProvince}
+          />
+        </div>
       </div>
     );
+  }
+
+  selectProvince(id: number) {
+    const province = this.state.provinces[id].content;
+    this.setState({ selectedProvince: province });
   }
 }
 
