@@ -23,4 +23,20 @@ app.get('/api/provinces', (req, res) => {
     });
 });
 
+app.get('/api/dataByProvince', (req, res) => {
+  const selectedProvince = req.query.province;
+  const results = [];
+
+  fs.createReadStream('./data/covid_19_data.csv')
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      const data = results
+        .filter(item => item['Province/State'] === selectedProvince)
+        .map(item => ({ observationDate: item['ObservationDate'], confirmed: item['Confirmed'], deaths: item['Deaths'], recovered: item['Recovered'] }));
+
+      res.send({ data });
+    });
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

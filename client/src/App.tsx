@@ -1,19 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { callApi } from './callApi';
-import { Province } from './types';
+import { Province, ProvinceData } from './types';
 import { ProvinceList } from './ProvinceList/ProvinceList';
 
 type AppState = {
   provinces: Province[],
-  selectedProvince: string
+  selectedProvince: string,
+  provinceData: ProvinceData[]
 }
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
     provinces: [],
-    selectedProvince: ''
+    selectedProvince: '',
+    provinceData: []
   };
 
   componentDidMount() {
@@ -39,6 +40,10 @@ class App extends React.Component<{}, AppState> {
   selectProvince(id: number) {
     const province = this.state.provinces[id].content;
     this.setState({ selectedProvince: province });
+
+    callApi<{ data: ProvinceData[] }>('/api/dataByProvince?province=' + province)
+      .then(res => this.setState({ provinceData: res.data }))
+      .catch(err => console.log(err));
   }
 }
 
