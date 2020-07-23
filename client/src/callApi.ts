@@ -1,7 +1,7 @@
-const callApi = async (url: string) => {
+const callApi = async <T>(url: string) => {
     const response = await fetch(url);
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
+    const body = await response.json() as Promise<T>;
+    if (response.status !== 200) throw Error(response.statusText);
     return body;
 };
 
