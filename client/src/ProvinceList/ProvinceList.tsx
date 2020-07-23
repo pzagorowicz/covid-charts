@@ -3,10 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import { Card } from '@material-ui/core';
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
 import { Province } from '../types';
+import { Widget } from '../Widget/Widget';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,13 +46,10 @@ export function ProvinceList(props: Props) {
     const data = { ...props, index, setIndex };
 
     return (
-        <Card className={classes.root}>
-            <CardHeader title={`Region: ${props.selectedProvince}`} />
-            <CardContent>
-                <FixedSizeList height={height - 16 - 32 - 16 * 2 - 40} width={300} itemSize={46} itemCount={props.provinces.length} itemData={data}>
-                    {renderRow}
-                </FixedSizeList>
-            </CardContent>
-        </Card>
+        <Widget title={`Region: ${props.selectedProvince}`} rootClassName={classes.root}>
+            <FixedSizeList height={height - 16 - 32 - 16 * 2 - 40} width={300} itemSize={46} itemCount={props.provinces.length} itemData={data}>
+                {renderRow}
+            </FixedSizeList>
+        </Widget>
     );
 }
