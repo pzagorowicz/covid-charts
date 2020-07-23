@@ -3,6 +3,7 @@ import './App.css';
 import { callApi } from './callApi';
 import { Province, ProvinceData } from './types';
 import { ProvinceList } from './ProvinceList/ProvinceList';
+import { ProvinceChart } from './ProvinceChart/ProvinceChart';
 
 type AppState = {
   provinces: Province[],
@@ -32,6 +33,9 @@ class App extends React.Component<{}, AppState> {
             selectProvince={(id) => this.selectProvince(id)}
             selectedProvince={this.state.selectedProvince}
           />
+        </div>
+        <div className='container'>
+          <ProvinceChart province={this.state.selectedProvince} data={this.state.provinceData} />
         </div>
       </div>
     );
